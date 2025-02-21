@@ -1,4 +1,4 @@
-package org.hidevelop.mollyapiapi.exception;
+package org.hidevelop.mollyimageapi.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

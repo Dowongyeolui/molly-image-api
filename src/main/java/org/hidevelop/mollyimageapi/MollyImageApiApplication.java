@@ -1,13 +1,13 @@
-package org.hidevelop.mollyapiapi;
+package org.hidevelop.mollyimageapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MollyApiApiApplication {
+public class MollyImageApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MollyApiApiApplication.class, args);
+        SpringApplication.run(MollyImageApiApplication.class, args);
     }
 
 }
