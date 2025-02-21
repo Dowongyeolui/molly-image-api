@@ -1,4 +1,4 @@
-package org.hidevelop.mollyapiapi.exception;
+package org.hidevelop.mollyimageapi.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
