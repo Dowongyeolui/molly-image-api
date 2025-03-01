@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: molly-image-api
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 40MB
+  web:
+    resources:
+      static-locations: classpath:/static/
+
+image:
+  product:
+    url: /images/product/
+#    dir: /Users/persimmontree/images/products/
+    dir: /home/youn/images/products/
+  review:
+    url: /images/review/
+#    dir: /Users/persimmontree/images/reviews/
+    dir: /home/youn/images/reviews/
+
+server:
+  port: 8081
+
+springdoc:
+  swagger-ui:
+    path: /index.html
+  packages-to-scan: org.hidevelop.mollyimageapi
+
+logging:
+  config: classpath:logback-spring.xml
+
