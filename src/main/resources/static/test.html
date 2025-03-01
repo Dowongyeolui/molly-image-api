@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>!~실시간 로그 보기~!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #043263;
+            color: white;
+        }
+
+        #log-container {
+            width: 80%; height: 400px; overflow-y: auto;
+            border: 1px solid #ddd; padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            white-space: pre-line;
+            margin: 0 auto;
+            text-align: left;
+            color: white;
+        }
+
+        .nyan-cat {
+            position: absolute;
+            bottom: 99px;
+            left: -200px;
+            width: 200px;
+            animation: moveNyan 5s linear infinite;
+        }
+        @keyframes moveNyan {
+            from { left: -200px; }
+            to { left: 110%; }
+        }
+        h2 {
+            margin: 40px;
+        }
+        audio {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<h2>Molly 이미지 서버 실시간 로그</h2>
+<div id="log-container"></div>
+
+<script>
+    const socket = new WebSocket("ws://192.168.219.101:8081/logs");
+
+    socket.onopen = function() {
+        console.log("WebSocket 연결됨.");
+        addLogMessage("서버에 연결이 완료되었습니다!");
+
+    };
+
+    socket.onmessage = function(event) {
+        addLogMessage(event.data);
+    };
+
+    socket.onclose = function() {
+        console.log("WebSocket 연결 종료됨.");
+        addLogMessage("WebSocket 연결이 종료되었습니다.");
+    };
+
+    function addLogMessage(message) {
+        const logContainer = document.getElementById("log-container");
+        const logEntry = document.createElement("p");
+        logEntry.textContent = message;
+        logContainer.appendChild(logEntry);
+        logContainer.scrollTop = logContainer.scrollHeight;
+    }
+
+</script>
+
+
+<audio src="/audio/original.mp3" controls autoplay loop ></audio>
+
+<img src="/img/nyan-cat.gif" alt="Nyan Cat" class="nyan-cat">
+
+
+</body>
+</html>
