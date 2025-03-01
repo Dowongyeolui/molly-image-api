@@ -1,0 +1,31 @@
+name: Deploy Spring Boot to Raspberry Pi
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 push될 때 실행
+
+jobs:
+  deploy:
+    runs-on: self-hosted  # Raspberry Pi에서 실행
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4  # GitHub 레포지토리 코드 가져오기
+
+      - name: 🔧 Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: ⚙️ Build Spring Boot JAR
+        run: |
+          ./gradlew build -x test  # Gradle 빌드 (테스트 제외)
+        env:
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-arm64  # Raspberry Pi JDK 경로
+
+      - name: 📂 Deploy to Raspberry Pi
+        run: |
+          scp build/libs/*.jar persimmon@192.168.219.105:/home/persimmon/app/
+          ssh persimmon@192.168.219.105 "bash /home/persimmon/app/molly-image-restart.sh"

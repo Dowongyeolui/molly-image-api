@@ -5,7 +5,6 @@ plugins {
 }
 
 group = 'org.hidevelop'
-version = '0.0.1'
 
 java {
     toolchain {
@@ -13,6 +12,9 @@ java {
     }
 }
 
+jar {
+    enabled = false
+}
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
