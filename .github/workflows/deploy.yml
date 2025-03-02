@@ -33,5 +33,5 @@ jobs:
 
       - name: Check Running Processes
         run: |
-          ps aus | grep java
+          ps aux | grep java
           lsof -i:8081
