@@ -9,9 +9,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import static org.hidevelop.mollyimageapi.exception.CustomError.FAILED_TRANSFER_LOG;
 
 @Component
@@ -30,7 +27,6 @@ public class LogWebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessions.add(session);
         logger.info("{}님이 들어왔어요!!!", session.getId());
-
         logTestRunner.startLogging(session.getId());
     }
 
