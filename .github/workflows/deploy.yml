@@ -25,9 +25,6 @@ jobs:
           ./gradlew build -x test  # Gradle 빌드 (테스트 제외)
         env:
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-arm64  # Raspberry Pi JDK 경로
-      
-      - name: Check User
-        run: whoami
         
       - name: Deploy to Raspberry Pi
         run: |
