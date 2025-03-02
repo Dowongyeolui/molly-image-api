@@ -32,6 +32,6 @@ jobs:
           bash /home/persimmon/app/molly-image-restart.sh
 
       - name: Check Running Processes
-      - run: |
+        run: |
           ps aus | grep java
           lsof -i:8081
