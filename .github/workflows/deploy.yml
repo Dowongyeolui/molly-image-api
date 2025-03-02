@@ -27,6 +27,8 @@ jobs:
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-arm64  # Raspberry Pi JDK 경로
         
       - name: Deploy to Raspberry Pi
+        env: 
+          RUNNER_TRACKING_ID: ""
         run: |
           cp /home/persimmon/actions-runner/_work/molly-image-api/molly-image-api/build/libs/molly-image-api.jar /home/persimmon/app/
           bash /home/persimmon/app/molly-image-restart.sh
