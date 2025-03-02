@@ -21,12 +21,12 @@ jobs:
 
       - name: ⚙️ Build Spring Boot JAR
         run: |
+          cd /home/persimmon/actions-runner/_work/molly-image-api/molly-image-api/
           ./gradlew build -x test  # Gradle 빌드 (테스트 제외)
         env:
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-arm64  # Raspberry Pi JDK 경로
 
       - name: 📂 Deploy to Raspberry Pi
         run: |
-          ssh-keyscan -H 192.168.219.105 >> ~/.ssh/known_hosts
-          scp build/libs/*.jar persimmon@192.168.219.105:/home/persimmon/app/
-          ssh persimmon@192.168.219.105 "bash /home/persimmon/app/molly-image-restart.sh"
+          cp /home/persimmon/actions-runner/_work/molly-image-api/molly-image-api/build/libs/molly-image-api.jar /home/persimmon/app/
+          bash /home/persimmon/app/molly-image-restart.sh
