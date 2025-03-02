@@ -29,8 +29,4 @@ jobs:
       - name: Deploy to Raspberry Pi
         run: |
           cp /home/persimmon/actions-runner/_work/molly-image-api/molly-image-api/build/libs/molly-image-api.jar /home/persimmon/app/
-          pwd
-          cd ~
-          pwd
-          sudo chmod +x /home/persimmon/app/molly-image-restart.sh
           bash /home/persimmon/app/molly-image-restart.sh
