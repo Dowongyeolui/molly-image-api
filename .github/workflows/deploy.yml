@@ -30,3 +30,8 @@ jobs:
         run: |
           cp /home/persimmon/actions-runner/_work/molly-image-api/molly-image-api/build/libs/molly-image-api.jar /home/persimmon/app/
           bash /home/persimmon/app/molly-image-restart.sh
+
+      - name: Check Running Processes
+      - run: |
+          ps aus | grep java
+          lsof -i:8081
