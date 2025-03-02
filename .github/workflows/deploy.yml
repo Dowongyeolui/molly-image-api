@@ -27,5 +27,6 @@ jobs:
 
       - name: 📂 Deploy to Raspberry Pi
         run: |
+          ssh-keyscan -H 192.168.219.105 >> ~/.ssh/known_hosts
           scp build/libs/*.jar persimmon@192.168.219.105:/home/persimmon/app/
           ssh persimmon@192.168.219.105 "bash /home/persimmon/app/molly-image-restart.sh"
