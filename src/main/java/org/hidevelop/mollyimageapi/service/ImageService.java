@@ -1,8 +1,16 @@
 package org.hidevelop.mollyimageapi.service;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import org.hidevelop.mollyimageapi.exception.CustomError;
 import org.hidevelop.mollyimageapi.exception.CustomException;
 import org.hidevelop.mollyimageapi.type.AllowedExtension;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,8 +53,8 @@ public class ImageService {
 
         // 불필요한 경로 제거
         String imageNameWithExtend =
-                StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()))
-                        .replaceAll(" ", "");
+            StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()))
+                .replaceAll(" ", "");
 
         //ImageName과 extension 분리 기준
         int lastDotIndex = imageNameWithExtend.lastIndexOf(".");
@@ -61,15 +69,14 @@ public class ImageService {
 
         //이미지 이름 중복 방지
         String uniqueFileName = UUID.randomUUID() + "_" + imageName + extension;
-        
+
         // 어느 폴더에 저장할까요~~~
         Path targetLocation = getPathToSave(isProduct, uniqueFileName);
-
 
         // 저장할 껀데..혹시나 혹시나 아주 혹시나 똑같은 이름이 있으면 어떻게하죠? 그럴 일 없어요 ㅠ
         try {
             Files.copy(image.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new CustomException(FAILED_UPLOAD);
         }
 
@@ -96,12 +103,12 @@ public class ImageService {
 
     private Path getPathToSave(boolean isProduct, String uniqueFileName) {
         Path targetLocation;
-        if(isProduct){
+        if (isProduct) {
             targetLocation =
-                    Paths.get(productImageDir).resolve(uniqueFileName);
+                Paths.get(productImageDir).resolve(uniqueFileName);
         } else {
             targetLocation =
-                    Paths.get(reviewImageDir).resolve(uniqueFileName);
+                Paths.get(reviewImageDir).resolve(uniqueFileName);
         }
         return targetLocation;
     }
@@ -112,7 +119,7 @@ public class ImageService {
      * @return 단축된 이미지 이름
      */
     private static String shorteningImageName(String imageName) {
-        if (imageName.length() > 10){
+        if (imageName.length() > 10) {
             imageName = imageName.substring(0, 10);
         }
         return imageName;
@@ -124,14 +131,14 @@ public class ImageService {
      * @param extension 이미지 확장자
      */
     private static void validImage(String imageName, String extension) {
-        
+
         //이미지 이름이 비어있으면 안돼!
-        if (imageName.isEmpty()){
+        if (imageName.isEmpty()) {
             throw new CustomException(SHORT_FILE_NAME);
         }
 
         //이미지 확장자는 서버가 정한 녀석들만 받아들일 수 있어요!
-        if (!isValidExtension(extension)){
+        if (!isValidExtension(extension)) {
             throw new CustomException(DISALLOWED_EXTEND);
         }
     }
@@ -142,11 +149,11 @@ public class ImageService {
      * @param isProduct 상품이에요? 리뷰에요?
      * @return 삭제 성공! 실패 ㅠ
      */
-    public boolean deletedImage(String deletedImagePath, boolean isProduct){
+    public boolean deletedImage(String deletedImagePath, boolean isProduct) {
 
         boolean isSuccess = false;
 
-        if(isProduct){
+        if (isProduct) {
             deletedImagePath = deletedImagePath.substring(16);
             deletedImagePath = productImageDir + deletedImagePath;
         } else {
@@ -183,4 +190,6 @@ public class ImageService {
         }
         return false;
     }
+
+
 }

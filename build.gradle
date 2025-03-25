@@ -39,10 +39,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-websocket' // WebSocket
 
     //log
-    implementation 'ch.qos.logback:logback-classic' // Logback (Spring Boot 기본 로그 시스템)
+    implementation 'ch.qos.logback:logback-classic'
 
     //swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+    implementation "com.sksamuel.scrimage:scrimage-core:4.0.32"
+    implementation "com.sksamuel.scrimage:scrimage-webp:4.0.32"
+
 }
 
 tasks.named('test') {

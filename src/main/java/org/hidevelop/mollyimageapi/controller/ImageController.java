@@ -20,6 +20,8 @@ public class ImageController {
 
     private final ImageService imageService;
 
+
+
     @Operation(summary = "이미지 업로드", description = "이미지 업로드 시 URL 반환, isProduct : false 면 Review")
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<CommonImageDto> uploadImage(@RequestPart MultipartFile image, @RequestParam boolean isProduct) {
@@ -53,4 +55,6 @@ public class ImageController {
         boolean isSuccess = imageService.deletedImage(url, isProduct);
         return ResponseEntity.ok(new DeleteImageResDto(isSuccess));
     }
+
+
 }
