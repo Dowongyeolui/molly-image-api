@@ -72,7 +72,7 @@ public class ImageReadController {
     }
 
     public boolean isWebSupported(HttpServletRequest request){
-        String accept = request.getHeader("Accept");
+        String accept = request.getHeader("accept");
         return accept != null &&( accept.contains("image/webp") || accept.contains("*/*"));
     }
 

@@ -30,7 +30,7 @@ public class ImageReadService {
                 return Files.readAllBytes(originalFile.toPath());
             }
         } catch (IOException e){
-            throw new CustomException(CustomError.FAILED_FIND);
+            throw new CustomException(CustomError.FAILED_CONVERT_WEBP);
         }
     }
 
