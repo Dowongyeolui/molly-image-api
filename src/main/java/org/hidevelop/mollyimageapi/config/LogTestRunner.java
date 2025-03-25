@@ -14,9 +14,9 @@ public class LogTestRunner{
 
     public void startLogging(String sessionId) {
         List<String> welcomeMessages = List.of(
-                "5XX-Cat : {}님 컴퓨터는 틀리지 않아요~~!, 연결은 됬으닌 확인해보세요 ㅋ",
+                "5XX-Cat : {}님 컴퓨터는 틀리지 않아요~~!, 연결은 되었으니 확인해보세요 ㅋ",
                 "4XX-Cat : {}님 그럼 연결이 쉬울 주 아셨나요..? ㅋ",
-                "2XX-Cat : {}절 보고싶다고요..? 좀 더 강해져서 돌아오세요 ㅋ"
+                "2XX-Cat : {}님 절 보고싶다고요..? 좀 더 강해져서 돌아오세요 ㅋ"
         );
         new Thread( () -> { // 별도 스레드에서 실행
             try {
