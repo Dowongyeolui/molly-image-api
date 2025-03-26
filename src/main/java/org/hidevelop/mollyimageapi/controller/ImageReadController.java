@@ -42,9 +42,9 @@ public class ImageReadController {
         @PathVariable String type,
         @PathVariable String filename,
         HttpServletRequest request,
-        @RequestParam(defaultValue = "200") int w,
-        @RequestParam(defaultValue = "300") int h) {
-
+        @RequestParam(defaultValue = "900") int w,
+        @RequestParam(defaultValue = "1600") int h,
+        @RequestParam(defaultValue = "false") boolean r) {
 
         String folderPath = type.equals("product") ? productImageDir : reviewImageDir;
         File imageFile = new File(folderPath + filename);
@@ -53,7 +53,7 @@ public class ImageReadController {
         }
 
         boolean webpSupported = isWebSupported(request);
-        byte[] imageBytes = imageReadService.convertToWebp(imageFile, w, h, webpSupported);
+        byte[] imageBytes = imageReadService.processImage(imageFile, w, h, webpSupported, r);
 
         String contentType = webpSupported ? "image/webp" : getMimeType(imageFile);
         HttpHeaders headers = new HttpHeaders();
