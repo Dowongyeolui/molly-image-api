@@ -1,10 +1,11 @@
 package org.hidevelop.mollyimageapi.service;
 
 import com.sksamuel.scrimage.ImmutableImage;
-import com.sksamuel.scrimage.webp.WebpWriter;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import javax.imageio.ImageIO;
 import lombok.extern.slf4j.Slf4j;
 import org.hidevelop.mollyimageapi.exception.CustomError;
 import org.hidevelop.mollyimageapi.exception.CustomException;
@@ -15,27 +16,44 @@ import org.springframework.stereotype.Service;
 public class ImageReadService {
 
     public byte[] convertToWebp(File originalFile, int w, int h, boolean webpSupported) {
-
         try {
+            // 이미지 리사이징 (임시 PNG 파일로 저장)
             ImmutableImage image = ImmutableImage.loader().fromFile(originalFile);
             ImmutableImage resized = image.scaleTo(w, h);
 
-//            return Files.readAllBytes(originalFile.toPath());
+            BufferedImage bufferedImage = resized.toNewBufferedImage(BufferedImage.TYPE_INT_ARGB);
+
+            File tempPng = File.createTempFile("resized-", ".png");
+            ImageIO.write(bufferedImage, "png", tempPng);
+
+            // WebP 지원 시 cwebp CLI 실행
             if (webpSupported) {
-                //Q : (0~100) 높을수록 이미지 품질 업, 파일 크기 업
-                //M : (0~6) 값이 높을수록 압축 속도는 느려짐, 압축률 높아짐
-                //Z : (0~9) 값이 높을수록 높은 압축률, 파일 크기 제한, 압축 속도는 느려짐, 주로 무손실
-                WebpWriter writer = WebpWriter.DEFAULT.withQ(70).withM(3);
-                return resized.bytes(writer);
+                File outputWebp = File.createTempFile("converted-", ".webp");
+
+                ProcessBuilder pb = new ProcessBuilder(
+                    "cwebp", "-q", "70", // 품질 설정
+                    tempPng.getAbsolutePath(),
+                    "-o", outputWebp.getAbsolutePath()
+                );
+                Process process = pb.start();
+
+                int exitCode = process.waitFor();
+                if (exitCode != 0) {
+                    log.error("cwebp 실행 실패. 종료 코드: {}", exitCode);
+                    throw new CustomException(CustomError.FAILED_CONVERT_WEBP);
+                }
+
+                return Files.readAllBytes(outputWebp.toPath());
             } else {
-                // 원본 포맷 유지
+                // WebP 미지원 시 원본 반환
                 return Files.readAllBytes(originalFile.toPath());
             }
-        } catch (IOException e){
-            log.error("Error Messge : {}", e.getMessage());
+        } catch (IOException | InterruptedException e) {
+            log.error("Error Message: {}", e.getMessage(), e);
             throw new CustomException(CustomError.FAILED_CONVERT_WEBP);
         }
     }
+
 
 
 }
