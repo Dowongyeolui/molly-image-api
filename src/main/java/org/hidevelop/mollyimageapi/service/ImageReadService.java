@@ -5,10 +5,12 @@ import com.sksamuel.scrimage.webp.WebpWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import lombok.extern.slf4j.Slf4j;
 import org.hidevelop.mollyimageapi.exception.CustomError;
 import org.hidevelop.mollyimageapi.exception.CustomException;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class ImageReadService {
 
@@ -30,6 +32,7 @@ public class ImageReadService {
                 return Files.readAllBytes(originalFile.toPath());
             }
         } catch (IOException e){
+            log.error("Error Messge : {}", e.getMessage());
             throw new CustomException(CustomError.FAILED_CONVERT_WEBP);
         }
     }
