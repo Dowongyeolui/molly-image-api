@@ -18,13 +18,9 @@ public class ImageReadService {
     public byte[] processImage(File originalFile, int w, int h, boolean webpSupported, boolean r) {
         try {
             File inputFile = originalFile;
-
-
             if(r){
                 inputFile = resizeImageToTempPng(inputFile, w, h);
             }
-
-
             // WebP 지원 시 cwebp CLI 실행
             if (webpSupported) {
                 return processImage(inputFile);
@@ -42,7 +38,7 @@ public class ImageReadService {
         File outputWebp = File.createTempFile("converted-", ".webp");
 
         ProcessBuilder pb = new ProcessBuilder(
-            "cwebp", "-q", "80",
+            "cwebp", "-q", "80",  "-m", "4",
             tempPng.getAbsolutePath(),
             "-o", outputWebp.getAbsolutePath()
         );
